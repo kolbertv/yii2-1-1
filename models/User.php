@@ -6,6 +6,7 @@ use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
 
+
 class User extends ActiveRecord implements IdentityInterface
 {
 //    public $id;
@@ -115,6 +116,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
 
 //        return $this->password === $password;
+
 
         return static::findOne(['password' => $password]);
 

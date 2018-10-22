@@ -11,6 +11,7 @@ namespace app\controllers;
 use app\models\tables\Users;
 use app\models\tables\Tasks;
 use app\models\Task;
+use yii\db\Query;
 use yii\web\Controller;
 use app;
 
@@ -110,6 +111,38 @@ class TaskController extends Controller
         ")->queryAll();
         debug($result);
         var_dump($result);
+
+
+//        debug(\Yii::$app->getSecurity()->generatePasswordHash('111'));
+
+        exit();
+
+    }
+
+    public function actionTest2() {
+
+
+
+//        $result = \Yii::$app->db->createCommand("
+//            select id, username from user
+//        ")->queryAll();
+
+
+        $result = (new Query())
+        ->select(['id', 'username'])
+        ->from('user');
+
+        $array = [];
+
+        foreach ($result->each() as $user) {
+
+            $array[$user['id']] = $user['username'];
+
+        }
+
+        debug($array);
+
+//        debug($result);
         exit();
 
     }
