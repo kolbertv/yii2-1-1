@@ -38,15 +38,21 @@ class TaskController extends Controller
 //        var_dump($model->getErrors());
 //        exit;
 
-        $tasksSearch = \Yii::$app->db->createCommand("
-                select * from tasks where monthname(created_at) = monthname(now())
-        ");
+//        $tasksSearch = \Yii::$app->db->createCommand("
+//                select * from tasks where monthname(created_at) = monthname(now())
+//        ");
 
-        $query = (new Query())->from('tasks');
 
-        $dataProvider = new ActiveDataProvider([
-            'query' =>$query,
+
+//        $query = (new Query())->from('tasks');
+
+        $dataProvider = new SqlDataProvider([
+            'sql'=> 'select * from tasks where monthname(created_at) = monthname(now())'
         ]);
+
+//        $dataProvider = new ActiveDataProvider([
+//            'query' =>$query,
+//        ]);
 
 //
 //        debug($dataProvider->getModels());
