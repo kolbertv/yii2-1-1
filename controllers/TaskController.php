@@ -11,9 +11,13 @@ namespace app\controllers;
 use app\models\tables\Users;
 use app\models\tables\Tasks;
 use app\models\Task;
+use yii\data\SqlDataProvider;
 use yii\db\Query;
 use yii\web\Controller;
 use app;
+use yii\data\ActiveDataProvider;
+use yii\widgets\ListView;
+
 
 
 class TaskController extends Controller
@@ -28,12 +32,47 @@ class TaskController extends Controller
 
     public function actionIndex()
     {
-        $model = new Task();
-        $model->email = 'yandex@yandex.ru';
-        var_dump($model->validate());
-        var_dump($model->getErrors());
-        exit;
+//        $model = new Task();
+//        $model->email = 'yandex@yandex.ru';
+//        var_dump($model->validate());
+//        var_dump($model->getErrors());
+//        exit;
 
+        $tasksSearch = \Yii::$app->db->createCommand("
+                select * from tasks where monthname(created_at) = monthname(now())
+        ");
+
+        $query = (new Query())->from('tasks');
+
+        $dataProvider = new ActiveDataProvider([
+            'query' =>$query,
+        ]);
+
+//
+//        debug($dataProvider->getModels());
+//        exit();
+//        ListView::widget([
+//            'dataProvider' => $dataProvider,
+//            'itemView' => function ($model, $key, $index, $widget) {
+//                return $this->render('_form', ['model' => $model]);
+//            },
+//
+//        ]);
+
+//        $dataProvider->getModels()
+
+        return $this->render('index', [
+            'dataProvider'=>$dataProvider,
+        ]);
+
+
+    }
+
+
+    public function actionView($id){
+        return $this->render('view',[
+            'model'=>Tasks::findOne($id)
+            ]);
     }
 
     public function actionTest()
