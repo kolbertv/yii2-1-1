@@ -11,13 +11,13 @@ namespace app\controllers;
 use app\models\tables\Users;
 use app\models\tables\Tasks;
 use app\models\Task;
+use yii\base\Event;
 use yii\data\SqlDataProvider;
 use yii\db\Query;
 use yii\web\Controller;
 use app;
 use yii\data\ActiveDataProvider;
 use yii\widgets\ListView;
-
 
 
 class TaskController extends Controller
@@ -43,11 +43,10 @@ class TaskController extends Controller
 //        ");
 
 
-
 //        $query = (new Query())->from('tasks');
 
         $dataProvider = new SqlDataProvider([
-            'sql'=> 'select * from tasks where monthname(created_at) = monthname(now())'
+            'sql' => 'select * from tasks where monthname(created_at) = monthname(now())'
         ]);
 
 //        $dataProvider = new ActiveDataProvider([
@@ -68,17 +67,18 @@ class TaskController extends Controller
 //        $dataProvider->getModels()
 
         return $this->render('index', [
-            'dataProvider'=>$dataProvider,
+            'dataProvider' => $dataProvider,
         ]);
 
 
     }
 
 
-    public function actionView($id){
-        return $this->render('view',[
-            'model'=>Tasks::findOne($id)
-            ]);
+    public function actionView($id)
+    {
+        return $this->render('view', [
+            'model' => Tasks::findOne($id)
+        ]);
     }
 
     public function actionTest()
@@ -140,7 +140,8 @@ class TaskController extends Controller
 
     }
 
-    public function actionTask() {
+    public function actionTask()
+    {
 
 //        $result = \Yii::$app->db->createCommand("
 //            insert into tasks(title, description, created_at) values
@@ -164,8 +165,8 @@ class TaskController extends Controller
 
     }
 
-    public function actionTest2() {
-
+    public function actionTest2()
+    {
 
 
 //        $result = \Yii::$app->db->createCommand("
@@ -174,8 +175,8 @@ class TaskController extends Controller
 
 
         $result = (new Query())
-        ->select(['id', 'username'])
-        ->from('user');
+            ->select(['id', 'username'])
+            ->from('user');
 
         $array = [];
 
@@ -189,6 +190,50 @@ class TaskController extends Controller
 
 //        debug($result);
         exit();
+
+    }
+
+
+    public function actionNewuser()
+    {
+
+        Event::on(app\models\User::className(), app\models\User::EVENT_AFTER_INSERT, function ($event) {
+
+            $task = new Tasks([
+                'title' => 'Ознакомится с проектом',
+                'description' => 'Стартовая таска для знакомтсва проектом',
+                'created_at' => date("Y-m-d h:i:s"),
+                'creator_id' => '1',
+                'user_id' => $event->sender->id,
+            ]);
+
+            $task->save();
+
+
+            \Yii::$app->mailer->compose()
+                ->setTo('kolbert@yandex.ru')
+                ->setFrom('admin@qwerty.ru')
+                ->setSubject($task->title)
+                ->setTextBody($task->description)
+                ->send();
+
+
+                      debug('сообщение отравлено');
+//          debug($event);
+//          debug($task->title);
+        });
+
+
+        $user = new app\models\User();
+        $user->username = 'qwerty';
+        $user->password = 'qwerty';
+        $user->email = 'qwerty@qwerty.ru';
+        $user->save();
+
+//        debug($user);
+
+        exit();
+
 
     }
 
