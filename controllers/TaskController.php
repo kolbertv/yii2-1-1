@@ -197,40 +197,11 @@ class TaskController extends Controller
     public function actionNewuser()
     {
 
-        Event::on(app\models\User::className(), app\models\User::EVENT_AFTER_INSERT, function ($event) {
-
-            $task = new Tasks([
-                'title' => 'Ознакомится с проектом',
-                'description' => 'Стартовая таска для знакомтсва проектом',
-                'created_at' => date("Y-m-d h:i:s"),
-                'creator_id' => '1',
-                'user_id' => $event->sender->id,
-            ]);
-
-            $task->save();
-
-
-            \Yii::$app->mailer->compose()
-                ->setTo('kolbert@yandex.ru')
-                ->setFrom('admin@qwerty.ru')
-                ->setSubject($task->title)
-                ->setTextBody($task->description)
-                ->send();
-
-
-                      debug('сообщение отравлено');
-//          debug($event);
-//          debug($task->title);
-        });
-
-
         $user = new app\models\User();
         $user->username = 'qwerty';
         $user->password = 'qwerty';
         $user->email = 'qwerty@qwerty.ru';
         $user->save();
-
-//        debug($user);
 
         exit();
 

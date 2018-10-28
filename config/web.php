@@ -9,7 +9,7 @@ $config = [
     'bootstrap' => ['log'],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
-        '@npm'   => '@vendor/npm-asset',
+        '@npm' => '@vendor/npm-asset',
     ],
     'components' => [
         'request' => [
@@ -43,6 +43,9 @@ $config = [
             ],
         ],
         'db' => $db,
+        'events' => [
+            'class' => 'app\components\EventsComponent'
+        ]
         /*
         'urlManager' => [
             'enablePrettyUrl' => true,
