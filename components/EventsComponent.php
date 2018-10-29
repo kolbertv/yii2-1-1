@@ -28,18 +28,18 @@ class EventsComponent extends Component
                 'description' => 'Стартовая таска для знакомтсва проектом',
                 'created_at' => date("Y-m-d h:i:s"),
                 'creator_id' => '1',
-                'user_id' => $event->sender->id,
+//                'user_id' => $event->sender->id,
             ]);
 
             $task->save();
 
 
-            \Yii::$app->mailer->compose()
-                ->setTo('kolbert@yandex.ru')
-                ->setFrom('admin@qwerty.ru')
-                ->setSubject($task->title)
-                ->setTextBody($task->description)
-                ->send();
+//            \Yii::$app->mailer->compose()
+//                ->setTo('kolbert@yandex.ru')
+//                ->setFrom('admin@qwerty.ru')
+//                ->setSubject($task->title)
+//                ->setTextBody($task->description)
+//                ->send();
 
         });
 

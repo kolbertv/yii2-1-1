@@ -198,10 +198,13 @@ class TaskController extends Controller
     {
 
         $user = new app\models\User();
+
         $user->username = 'qwerty';
         $user->password = 'qwerty';
         $user->email = 'qwerty@qwerty.ru';
-        $user->save();
+//        $user->save();
+
+        \Yii::$app->events;
 
         exit();
 
