@@ -16,6 +16,7 @@ use yii\db\ActiveRecord;
  * @property int $updater_id
  * @property string $created_at
  * @property string $updated_at
+ * @property string $run_to
  */
 class Tasks extends \yii\db\ActiveRecord
 {
@@ -29,7 +30,7 @@ class Tasks extends \yii\db\ActiveRecord
 
                 'class'=> TimestampBehavior::className(),
                 'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT=>['created_at', 'updated_at'],
+                    ActiveRecord::EVENT_BEFORE_INSERT=>['created_at', 'updated_at', 'run_to'],
                     ActiveRecord::EVENT_BEFORE_UPDATE=>['updated_at'],
                 ],
 
@@ -57,11 +58,31 @@ class Tasks extends \yii\db\ActiveRecord
         return [
             [['title'], 'required'],
             [['creator_id', 'updater_id'], 'integer'],
-            [['created_at', 'updated_at'], 'safe'],
+            [['created_at', 'updated_at', 'run_to'], 'safe'],
             [['title'], 'string', 'max' => 50],
             [['description'], 'string', 'max' => 255],
+            [['run_to'], 'validateRunTo'],
+
         ];
     }
+
+    public function validateRunTo($attribute, $params) {
+
+
+//        debug($this->created_at);
+//        debug($this->run_to);
+
+        if ($this->created_at <= $this->run_to) {
+            return true;
+        } else {
+
+            $this->addError($attribute, 'Data of task end must be more or equal than created');
+            return false;
+        }
+
+    }
+
+
 
     /**
      * @inheritdoc
@@ -76,6 +97,7 @@ class Tasks extends \yii\db\ActiveRecord
             'updater_id' => 'Updater ID',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
+            'run_to' => 'Run To',
         ];
     }
 }

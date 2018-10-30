@@ -21,6 +21,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'updater_id')->textInput() ?>
 
+    <?= $form->field($model, 'run_to')->textInput(['placeholder' => '','value'=>date("Y-m-d h:i:s")])?>
+
     <?// $form->field($model, 'created_at')->textInput() ?>
 
     <?// $form->field($model, 'updated_at')->textInput() ?>

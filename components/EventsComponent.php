@@ -21,17 +21,17 @@ class EventsComponent extends Component
 
         parent::init();
 
+        $task = new Tasks();
+
         Event::on(Tasks::className(), Tasks::EVENT_AFTER_INSERT, function ($event) {
 
             $task = new Tasks([
                 'title' => 'Ознакомится с проектом',
                 'description' => 'Стартовая таска для знакомтсва проектом',
                 'created_at' => date("Y-m-d h:i:s"),
-                'creator_id' => '1',
-//                'user_id' => $event->sender->id,
             ]);
 
-            $task->save();
+//            $task->title = 'Ознакомится с проектом';
 
 
 //            \Yii::$app->mailer->compose()
@@ -43,6 +43,7 @@ class EventsComponent extends Component
 
         });
 
+                    $task->save();
     }
 
 }

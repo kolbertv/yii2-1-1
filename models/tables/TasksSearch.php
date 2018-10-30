@@ -19,7 +19,7 @@ class TasksSearch extends Tasks
     {
         return [
             [['id', 'creator_id', 'updater_id'], 'integer'],
-            [['title', 'description', 'created_at', 'updated_at'], 'safe'],
+            [['title', 'description', 'created_at', 'updated_at', 'run_to'], 'safe'],
         ];
     }
 
@@ -64,6 +64,7 @@ class TasksSearch extends Tasks
             'updater_id' => $this->updater_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'run_to' => $this->run_to,
         ]);
 
         $query->andFilterWhere(['like', 'title', $this->title])

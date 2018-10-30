@@ -6,7 +6,7 @@ $db = require __DIR__ . '/db.php';
 $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log', 'events'],
+    'bootstrap' => ['log'],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm' => '@vendor/npm-asset',
@@ -43,9 +43,9 @@ $config = [
             ],
         ],
         'db' => $db,
-        'events' => [
-            'class' => 'app\components\EventsComponent'
-        ]
+//        'events' => [
+//            'class' => 'app\components\EventsComponent'
+//        ]
         /*
         'urlManager' => [
             'enablePrettyUrl' => true,
