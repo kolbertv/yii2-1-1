@@ -117,8 +117,7 @@ class User extends ActiveRecord implements IdentityInterface
 
 //        return $this->password === $password;
 
-
-        return static::findOne(['password' => $password]);
+        return \Yii::$app->getSecurity()->validatePassword($password, $this->password);
 
     }
 }
